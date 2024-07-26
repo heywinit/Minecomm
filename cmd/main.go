@@ -2,16 +2,13 @@ package main
 
 import (
 	"fmt"
-	"github.com/heywinit/minecomm/config"
-	"log"
+
+	"github.com/heywinit/minecomm"
 )
 
 func main() {
-	// Load configuration
-	cfg, err := config.Load()
-	if err != nil {
-		log.Fatalf("Error loading configuration: %v", err)
-	}
+	client := minecomm.NewClient()	
+	client.Connect("mc.hypixel.net", "")
 
-	fmt.Printf("%+v\n", cfg)
+	fmt.Printf("Connected to %s\n", client.GetAddr())
 }
