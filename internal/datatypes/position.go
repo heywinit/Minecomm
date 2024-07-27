@@ -4,9 +4,9 @@ import "encoding/binary"
 
 // Position represents a 3D position in the Minecraft world
 type Position struct {
-	X int32
-	Y int16
-	Z int32
+	X int32 `mc:"x" json:"x"`
+	Y int16 `mc:"y" json:"y"`
+	Z int32 `mc:"z" json:"z"`
 }
 
 // Encode converts a Position to its 64-bit representation
