@@ -79,3 +79,7 @@ func FromRawPacket(rawPacket *MinecraftRawPacket) (*MinecraftPacket, error) {
 
 	return packet, nil
 }
+
+func (l MinecraftPacket) SerializeData(inter interface{}) error {
+	return nil
+}
