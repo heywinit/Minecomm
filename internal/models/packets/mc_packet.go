@@ -7,10 +7,16 @@ import (
 	"io"
 )
 
+// MinecraftPacket
+// Basic struct containing the PacketID and many methods
+// for serialization.
 type MinecraftPacket struct {
-	Length   int32  `mc:"length" json:"length"`     //VarInt, length of the packet
-	PacketID int32  `mc:"packetID" json:"packetID"` //VarInt, different for each type of packet
-	Data     []byte `mc:"data" json:"data"`
+	// PacketID is a VarInt identifier of the packet
+	// refer to wiki.vg for all the packet ids
+	PacketID int32
+
+	// Remaining data of the packet, excluding packetid
+	Data []byte
 }
 
 // SerializeUncompressed serializes the fields into a buffer and
@@ -25,9 +31,9 @@ func (p *MinecraftPacket) SerializeUncompressed(writer io.Writer) error {
 	return packet.WriteUncompressed(writer)
 }
 
-// SerializeCompressed serializes the fields into a buffer, and if the buffer exceeds compressionTreshold
+// SerializeCompressed serializes the fields into a buffer, and if the buffer exceeds compressionThreshold
 // in length, it proceeds to compress it using zlib. Writes a complete packet into writer
-func (p *MinecraftPacket) SerializeCompressed(writer io.Writer, compressionTreshold int) error {
+func (p *MinecraftPacket) SerializeCompressed(writer io.Writer, compressionThreshold int) error {
 	encPid, pIdLen := datatypes.EncodeVarInt(p.PacketID)
 
 	uncompressedBuffer := new(bytes.Buffer)
@@ -38,7 +44,7 @@ func (p *MinecraftPacket) SerializeCompressed(writer io.Writer, compressionTresh
 
 	packet := new(MinecraftRawPacket)
 
-	if dataLength >= compressionTreshold {
+	if dataLength >= compressionThreshold {
 		// Create a new compressed buffer and a zlib writer pointing to it
 		compressedData := new(bytes.Buffer)
 		dataWriter := zlib.NewWriter(compressedData)
@@ -65,7 +71,7 @@ func (p *MinecraftPacket) SerializeCompressed(writer io.Writer, compressionTresh
 	}
 }
 
-// FromRawPacket returns a new MinecraftPacket, and takes a rawpacket as an input.
+// FromRawPacket returns a new MinecraftPacket, and takes a raw packet as an input.
 // rawPacket.ReadAll() is called to decode the packetid and the packet data
 func FromRawPacket(rawPacket *MinecraftRawPacket) (*MinecraftPacket, error) {
 	pId, data, err := rawPacket.ReadAll()
@@ -78,8 +84,4 @@ func FromRawPacket(rawPacket *MinecraftRawPacket) (*MinecraftPacket, error) {
 	packet.Data = data
 
 	return packet, nil
-}
-
-func (l MinecraftPacket) SerializeData(_ interface{}) error {
-	return nil
 }

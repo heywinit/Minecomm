@@ -9,8 +9,8 @@ import (
 )
 
 var (
-	maxPacketLength    = 2097151 // https://wiki.vg/Protocol#Packet_format
-	ErrMaxPacketLength = errors.New("minecomm: counterpart sent a packet which was too big")
+	maxPacketLength    = 2097151
+	ErrMaxPacketLength = errors.New("minecomm: packet length too big")
 )
 
 type MinecraftRawPacket struct {

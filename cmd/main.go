@@ -4,14 +4,14 @@ import (
 	"fmt"
 	"github.com/google/uuid"
 	"github.com/heywinit/minecomm"
-	"github.com/heywinit/minecomm/internal/models"
+	"github.com/heywinit/minecomm/internal/models/entities"
 )
 
 func main() {
 	client := minecomm.NewClient()
 	playerUUID, _ := uuid.NewUUID()
 
-	player := models.Player{
+	player := entities.Player{
 		Name: "heywinit",
 		UUID: playerUUID,
 	}
