@@ -1,5 +1,5 @@
 # minecomm
-A TUI application used to communicate with Minecraft servers using the Minecraft protocol made with GoLang.
+A library used for communication using the Minecraft TCP Protocol 
 
 ## To Do List
 - [x] Datatypes setup (VarInt, VarLong etc)
